@@ -11,6 +11,7 @@ import (
 	"wechatbot_mvp/internal/bridge"
 	"wechatbot_mvp/internal/config"
 	"wechatbot_mvp/internal/llm"
+	"wechatbot_mvp/internal/openai"
 )
 
 func main() {
