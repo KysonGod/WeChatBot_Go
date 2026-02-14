@@ -10,6 +10,7 @@ import (
 
 	"wechatbot_mvp/internal/bridge"
 	"wechatbot_mvp/internal/config"
+	"wechatbot_mvp/internal/llm"
 	"wechatbot_mvp/internal/openai"
 )
 
@@ -28,8 +29,13 @@ func main() {
 	}
 	defer bridgeClient.Close()
 
-	llm := openai.New(cfg.OpenAIAPIKey, cfg.OpenAIBaseURL, cfg.OpenAIModel)
-	fmt.Printf("MVP bot started. target=%s, model=%s\n", cfg.TargetRemark, cfg.OpenAIModel)
+	llmProvider, err := llm.NewProvider(cfg.LLMProvider, cfg.LLMAPIKey, cfg.LLMBaseURL, cfg.LLMModel)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "LLM provider error: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("MVP bot started. target=%s, provider=%s, model=%s\n", cfg.TargetRemark, cfg.LLMProvider, cfg.LLMModel)
 	fmt.Println("请输入来自 Zachary 的消息，输入 exit 退出。")
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -47,7 +53,7 @@ func main() {
 		}
 
 		replyCtx, cancel := context.WithTimeout(ctx, 90*time.Second)
-		reply, err := llm.Reply(replyCtx, cfg.SystemPrompt, input)
+		reply, err := llmProvider.Reply(replyCtx, cfg.SystemPrompt, input)
 		cancel()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "LLM error: %v\n", err)

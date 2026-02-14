@@ -1,8 +1,8 @@
 @echo off
 setlocal
 
-if "%OPENAI_API_KEY%"=="" (
-  echo [WARN] OPENAI_API_KEY is empty. Please set it before running the exe.
+if "%LLM_API_KEY%"=="" (
+  echo [WARN] LLM_API_KEY is empty. Please set it before running the exe.
 )
 
 echo Building wechatbot_mvp.exe ...

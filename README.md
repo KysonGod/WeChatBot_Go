@@ -5,6 +5,13 @@
 - Python 负责：通过 `wxauto` 操作 Windows 微信客户端，把回复发给备注为 `Zachary` 的联系人。
 
 > 当前仅实现 **Windows 微信客户端（wxauto）** 路径。
+## 重要说明：ChatGPT Pro 与 API
+
+- 仅有 **ChatGPT Pro（网页订阅）**，通常**不能直接用于 API 调用**。
+- 本项目需要“可编程 API”能力：`LLM_API_KEY + LLM_BASE_URL + LLM_MODEL`。
+- 你可以使用：
+  - OpenAI 官方 API；
+  - 或任意兼容 OpenAI Chat Completions 的网关/服务。
 
 ## 目录结构
 
@@ -17,7 +24,6 @@
 - `scripts/build_windows.bat`：Windows 构建脚本（生成 `build/wechatbot_mvp.exe`）
 
 ## 你需要准备的内容（必填）
-
 1. `OPENAI_API_KEY`（必填）
 2. `OPENAI_MODEL`（建议填你账户实际可用的 ChatGPT5.2 模型名，例如 `gpt-5.2`）
 3. 在仓库根目录放入 `wxauto/` 源码（你会复制）
@@ -69,4 +75,4 @@ scripts\build_windows.bat
 ## 说明
 
 - 若 `wxauto` 未就绪，Python bridge 会进入 dry-run 模式，仅打印日志，不会真实发消息。
-- 当前 MVP 为最小链路验证版本，后续可扩展为自动监听微信消息、上下文记忆、异常重试等。
+- 已支持 provider 抽象入口，当前默认 provider 为 `compatible_openai`，后续可继续扩展更多后端。
