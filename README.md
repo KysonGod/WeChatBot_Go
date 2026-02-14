@@ -1,1 +1,1 @@
-wechatbot_mvp
+WeChatBot MVP开发分支
